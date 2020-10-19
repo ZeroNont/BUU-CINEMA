@@ -278,7 +278,7 @@ public:
 			cout << temp->movie << endl;
 			temp = temp->link;
 		}			
-		cout << endl;
+		//cout << endl;
 	}
 	string get_name(int index){
 		node *temp = head;
@@ -354,15 +354,15 @@ public:
   					filein.erase(0,filein.find(',')+1);
   				//cout << "hello" << endl;
   				add(day);
-  				
-  				do{
-  				//	cout << "hello2" << endl;
-  					 
+				
+  				while(filein.find(',') != -1){
   					MovieName = filein.substr(0,filein.find(','));
   						filein.erase(0,filein.find(',')+1);
-						add2(MovieName);
-					
-				}while(filein.find(',') != -1);
+					add2(MovieName);
+				}
+				MovieName = filein.substr(0,filein.find(','));
+  						filein.erase(0,filein.find(',')+1);
+					add2(MovieName);
  										
 			}
 	}
@@ -374,16 +374,57 @@ public:
 class ListMovie{
 	class node{
 		public:
-			string movie;
+			string MovieName;
 			node *link;
-			node(){
-				//date();
+			node(string MovieName){
+				this->MovieName = MovieName;
 				link=NULL;
 			}
 	};
+public:
 	node *head;
 	node *tail;
 	int count;
+	
+	ListMovie(){
+		count = 0;
+		head = NULL;
+		tail = NULL;
+	}
+	void add(string MovieName){
+		node *NewNode = new node(MovieName);
+		if(count == 0){
+			head = NewNode;
+			tail = head;
+		}else{
+			tail->link = NewNode;
+			tail = tail->link;
+		}
+			count++;
+		
+	}
+	
+	void show(){
+		node *temp = head;
+		cout << count << endl;
+		for(int i=1;i<=count;i++){
+			cout << "==========" << endl;
+			cout << temp->MovieName << endl;
+			cout << "==========" << endl;
+			temp = temp->link;
+		}			
+		cout << endl;
+	}
+	void read_ListMovie(){
+  		string filein,MovieName;
+		fstream infile;
+		int i=0;
+		infile.open("ListMovie.txt");
+      		while(getline(infile,filein)){
+  				add(filein);
+			}
+	}
+	
 	int GetCount(){
 		return count;
 	}
@@ -462,9 +503,19 @@ int main(){
 		cout << "Enter: ";
 		cin >> menu;
 		if(menu==1){
+			/*
+			//Date_Movie
 			c.read_date();
 			c.show();
+			*/
+			//List_Movie
+			ListMovie list;
+			list.read_ListMovie();
+			list.show();
+			
+			
 			/*
+			//Movie
 			int time,index;
 			cout <<"day:";
 			cin >> time;
