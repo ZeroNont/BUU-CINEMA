@@ -1,6 +1,0 @@
-19/10/63,ironman,fish
-20/10/63,ironman,frame,pun
-21/10/63,fish
-22/10/63,ironman
-23/10/63,fish
-25/10/63,ironman
