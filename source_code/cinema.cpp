@@ -472,10 +472,13 @@ class Controler{
 			}
 			ShowListMovie(){
 				
-			}	
-			string showusePro(){
-				return Pro.getusePro();
 			}
+			Promotion GetPro(){
+				return promo;
+			}
+			int getsize(){
+				return promo.size();
+			}			
 };
 
 class UI{
@@ -521,8 +524,10 @@ class UI{
 		void show_chair(int index){
 			frame.show_chair(index);
 		}
-		void showusePro(){
-			cout<<con.showusePro()<<endl;
+		void showPromotion(){
+			for(int i=0;i<Con.getsize();i++){
+			//	cout << Con.GetPro.name[i] << endl;
+			}
 		}
 };
 int main(){
