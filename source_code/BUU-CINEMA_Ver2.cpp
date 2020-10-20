@@ -138,6 +138,24 @@ public:
 		}
 			count++; 
 	}
+/*
+	void add2(string day,string time,Theater th){
+		int i;
+		node *temp = head;
+		for(i=0;i<count;i++){
+			if(day == temp->day){	
+					temp->time.add(time,th);
+					break;
+			}else{
+				temp = temp->link;
+			}
+		}
+		if(i == count){
+			add(day,time,th);
+		} 	
+	} 
+*/
+
 	void show(){
 		node *temp;
 		temp = head;		
@@ -300,11 +318,11 @@ public:
 	node *head;
 	node *tail;
 	int count;
+	
 	void show(){
 		node *temp = head;
 		cout << count << endl;
-		//for(int i=1;i<=count;i++)
-		while(temp!=NULL){
+		for(int i=1;i<=count;i++){
 			cout << "==========" << endl;
 			temp->date.show();
 			cout << "==========" << endl;
@@ -377,6 +395,7 @@ public:
 		node *temp = head;
 		time_t ttime = time(0);
 		tm *local_time = localtime(&ttime);
+	//	cout << count << endl;
 			cout<<"\n\n\n";
 			cout<<"\t=============================================================================================="<<endl;
 			cout<<"\t  ######   ##   ##  ##   ##        ####    ######  ##   ##  #######  ##   ##    ###      "<<endl;
@@ -392,6 +411,7 @@ public:
 			cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
 		for(int i=1;i<=count;i++){
 			cout<<"\t|"<<"  Movie name"<<":"<<temp->MovieName<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+		//	cout << temp->MovieName << endl;
 			temp = temp->link;
 		}			
 		cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
@@ -435,6 +455,7 @@ class buuchana{
 //		list_staff staff;
 	public:
 		void read_data(){
+			
 			string filein,name,id,tel,study,d;
 			fstream infile;
 			infile.open("date.txt");
@@ -460,6 +481,8 @@ class buuchana{
 			frame.read_data(name);
 			frame.show();
 		}
+		void show_student(){
+		}
 		void showday(int time){
 			day[time-1].show();
 		}
@@ -468,12 +491,11 @@ class buuchana{
 		}
 		
 };
-void menu(){
+int main(){
 	buuchana BUU;
 	Calendar c;
 	int menu,menu2;
 	BUU.read_data();
-	c.read_date();
 	do{
 		cout<<"\n\n\n";
 		cout<<"\t=============================================================================================="<<endl;
@@ -526,15 +548,4 @@ void menu(){
 			cout <<"\tExit Programe" << endl;	
 		}
 	}while(menu !=4);
-}
-int main(){
-	buuchana BUU;
-	Calendar c;
-	int menu,menu2;
-	BUU.read_data();
-	c.read_date();
-	c.show();
-			ListMovie list;
-			list.read_ListMovie();
-			list.show();
 }
