@@ -5,6 +5,71 @@
 #include<cstdlib>
 #include<sstream>
 using namespace std;
+class Member{
+	private:
+	class node{
+		public:
+			string UserName;
+			string Password;
+			string Email;
+			string Tel;
+			node *link;
+			node(string UserName,string Password,string Email,string Tel){
+				this->UserName=UserName;
+				this->Password=Password;
+				this->Email=Email;
+				this->Tel=Tel;
+				link=NULL;
+			}//funtion - node
+	};//class - node
+		node *head;
+		node *tail;
+		int count;
+	public:
+		Member(){
+			this->head = NULL;
+			this->tail = NULL;
+			this->count = 0;
+		}//funtion - Member
+		void addMember(string UserName,string Password,string Email,string Tel){
+			node *Newnode = new node(UserName,Password,Email,Tel);
+		 	if(head == NULL){
+				head = 	Newnode;
+				tail = Newnode;
+
+			}else{
+				tail->link = Newnode;
+				tail = Newnode;
+			} //if-else
+		}//funtion - addMember
+		void loadData(){
+			string UserName,Password,Email,Tel,filein;
+			ifstream infile;
+			infile.open("member.txt");
+				while(getline(infile,filein)){
+					UserName=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Password=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Email=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Tel=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+				 	 	addMember(UserName,Password,Email,Tel);
+						//addData		 	 	
+				}//while
+		}//funtion - LoadData	
+		void save_member(){
+			fstream infile;
+			infile.open("member.txt",ios::trunc|ios::out);
+			node *temp = head;
+      		while(temp != NULL ){
+				infile << temp->UserName << "," << temp->Password <<"," <<temp->Email <<"," <<temp->Tel<<endl;
+				temp = temp->link;
+			}//loop - while
+			infile.close();
+		}//funtion - save_member
+};
 class Chair{
 	public:
 		string status;
@@ -294,6 +359,7 @@ public:
 
 };
 class Calendar{
+public:
 	class node{
 		public:
 			DAY date;
@@ -306,11 +372,37 @@ class Calendar{
 				date.add(name);
 			}
 	};
-public:
+	
+	node *head;
+	node *tail;
+	int count;	
+
+	
 	Calendar(){
 		count = 0;
 		head = NULL;
 		tail = NULL;
+	}
+	DAY ShowList(string date){
+		node *temp = head;
+		for(int i=0;i<count;i++){
+			if(date == temp->date.get_date() ){
+				return temp->date;
+			}else{
+				temp = temp->link;
+			}
+		}
+	}
+	bool CheckDate(string date){
+		node *temp = head;
+		for(int i=0;i<count;i++){
+			if(date == temp->date.get_date() ){
+				return true;
+			}else{
+				temp = temp->link;
+			}
+		}
+		return false;
 	}
 	void add(string date){
 		node *NewNode = new node(date);
@@ -328,9 +420,7 @@ public:
 		tail->date.add(name);		
 	}
 	
-	node *head;
-	node *tail;
-	int count;
+
 	
 	void show(){
 		node *temp = head;
@@ -349,10 +439,10 @@ public:
 		int i=0;
 		infile.open("date.txt");
       		while(getline(infile,filein)){
-      			//cout << count << endl;
+      			
       			day = filein.substr(0,filein.find(','));
   					filein.erase(0,filein.find(',')+1);
-  				//cout << "hello" << endl;
+  					
   				add(day);
 				
   				while(filein.find(',') != -1){
@@ -434,12 +524,14 @@ class Controler{
 		movie m;
 		Calendar Cal;
 		ListMovie list;
+		DAY date;
+		Calendar cal;
 	public:
 			BuyMovie(){
 				
 			}
-			ShowListMovie(){
-				
+			DAY ShowListMovie(string date){
+				return cal.ShowList(date);
 			}
 			
 };
@@ -448,9 +540,10 @@ class buuchana{
 	private:
 		movie frame;
 		DAY day[30];
-		Controler Con;
+		Controler con;
 //		list_staff staff;
 	public:
+		/*
 		void read_data(){
 			
 			string filein,name,id,tel,study;
@@ -458,7 +551,6 @@ class buuchana{
 			infile.open("day.txt");
 			int i=0;
       		while(getline(infile,filein)){
-      			
       			do{
       				filein.erase(0,filein.find(',')+1);
 					name = filein.substr(0,filein.find(','));			
@@ -467,9 +559,15 @@ class buuchana{
 				i++;
 			}
 		}
-		ShowListMovie(){
+		*/
+		
+		void ShowListMovie(string date){
+			for(int i=0;i<con.ShowListMovie(date).GetCount();i++){
+				cout << con.ShowListMovie(date).get_name(i) << endl;
+			}
 			
 		}
+		
 		void show_round(int Day,int index){
 			string name;
 			name = day[Day-1].get_name(index-1);
@@ -493,7 +591,7 @@ int main(){
 	buuchana BUU;
 	Calendar c;
 	int menu,menu2;
-	BUU.read_data();
+	//BUU.read_data();
 	do{
 		cout <<"====================== BUUCHANA =============================" << endl;
 		cout <<"1.Buy_Movie" << endl;
