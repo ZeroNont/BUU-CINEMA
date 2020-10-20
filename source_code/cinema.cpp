@@ -7,32 +7,23 @@
 #include<ctime>
 
 using namespace std;
-class Promotion{
+class Promotion(){
 	private :
+		string MoviePro[];
 		string UsePro;
-		int count;
 	public :
-		string MoviePro[5];
 		Promotoion(){
 			UsePro=" ";
-			MoviePro[0] = "Buy 3 Get 4";
-			MoviePro[1] = "Discount 10%";
-			MoviePro[2] = "Discount 20%";
-			MoviePro[3] = "Discount 50%";
-			MoviePro[4] = "No Promotion";
 		}
 		string GetUsePro(){
 			return UsePro;
 		}	
-		void SetUsePro(int index){
-			UsePro = MoviePro[index];			
+		void SetUsePro(string MoviePro){
+			UsePro = MoviePro;			
 		}
-		int size(){
-			return count;
-		}
-		/*Promotion SearchPromotion(){
+		Promotion SearchPromotion(){
 			return Promotion;
-		}*/
+		}
 };
 
 class Chair{
@@ -465,7 +456,6 @@ class Controler{
 		movie m;
 		Calendar Cal;
 		ListMovie list;
-		Promotion promo;
 	public:
 			BuyMovie(){
 				
@@ -473,15 +463,10 @@ class Controler{
 			ShowListMovie(){
 				
 			}
-			Promotion GetPro(){
-				return promo;
-			}
-			int getsize(){
-				return promo.size();
-			}			
+			
 };
 
-class UI{
+class buuchana{
 	private:
 		movie frame;
 		DAY day[30];
@@ -524,14 +509,10 @@ class UI{
 		void show_chair(int index){
 			frame.show_chair(index);
 		}
-		void showPromotion(){
-			for(int i=0;i<Con.getsize();i++){
-			//	cout << Con.GetPro.name[i] << endl;
-			}
-		}
+		
 };
 int main(){
-	UI BUU;
+	buuchana BUU;
 	Calendar c;
 	int menu,menu2;
 	BUU.read_data();
