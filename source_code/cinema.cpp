@@ -42,12 +42,14 @@ class Member{
 				tail->link = Newnode;
 				tail = Newnode;
 			} //if-else
+			count++;
 		}//funtion - addMember
 		void loadData(){
 			string UserName,Password,Email,Tel,filein;
 			ifstream infile;
 			infile.open("member.txt");
 				while(getline(infile,filein)){
+					//cout << filein <<endl;
 					UserName=filein.substr(0,filein.find(','));
 						filein.erase(0,filein.find(',')+1);	
 					Password=filein.substr(0,filein.find(','));
@@ -70,7 +72,97 @@ class Member{
 			}//loop - while
 			infile.close();
 		}//funtion - save_member
+		bool CheckMember(string user,string pass){
+			node *temp;
+			temp = head;
+			for(int i=0;i<count;i++){
+
+				if(user == temp->UserName && pass == temp->Password){
+				   return true;
+				}//if
+			    temp = temp->link;
+			}//for
+		 	return false;
+		}//function - login_Member
 };
+class Admin{
+	private:
+	class node{
+		public:
+			string UserName;
+			string Password;
+			string Email;
+			string Tel;
+			node *link;
+			node(string UserName,string Password,string Email,string Tel){
+				this->UserName=UserName;
+				this->Password=Password;
+				this->Email=Email;
+				this->Tel=Tel;
+				link=NULL;
+			}//funtion - node
+	};//class - node
+		node *head;
+		node *tail;
+		int count;
+	public:
+		Admin(){
+			this->head = NULL;
+			this->tail = NULL;
+			this->count = 0;
+		}//funtion - Admin
+		void addAdmin(string UserName,string Password,string Email,string Tel){
+			node *Newnode = new node(UserName,Password,Email,Tel);
+		 	if(head == NULL){
+				head = 	Newnode;
+				tail = Newnode;
+
+			}else{
+				tail->link = Newnode;
+				tail = Newnode;
+			} //if-else
+			count++;
+		}//funtion - addAdmin
+		void loadDataAdmin(){
+			string UserName,Password,Email,Tel,filein;
+			ifstream infile;
+			infile.open("Admin.txt");
+				while(getline(infile,filein)){
+					UserName=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Password=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Email=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Tel=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+				 	 	addAdmin(UserName,Password,Email,Tel);
+						//addData		 	 	
+				}//while
+		}//funtion - LoadDataAdmin	
+		void save_Admin(){
+			fstream infile;
+			infile.open("Admin.txt",ios::trunc|ios::out);
+			node *temp = head;
+      		while(temp != NULL ){
+				infile << temp->UserName << "," << temp->Password <<"," <<temp->Email <<"," <<temp-> Tel<<endl;
+				temp = temp->link;
+			}//loop - while
+			infile.close();
+		}//funtion - save_Admin
+		bool CheckAdmin(string user,string pass){
+			node *temp;
+			temp = head;
+			for(int i=0;i<count;i++){
+				if(user == temp->UserName && pass == temp->Password){
+				   return true;
+				}//if
+			    temp = temp->link;
+			}//for
+		 	return false;
+		}//function - login_Member
+};//class - Admin
+
 class Promotion{
 	private :
 		string MoviePro[5];
@@ -549,6 +641,8 @@ public:
 
 class Controler{
 	private:
+		Admin admin;
+		Member member;
 		movie m;
 		Theater th;
 		Calendar Cal;
@@ -566,6 +660,10 @@ class Controler{
 			void ReadMovie(string name){
 				m.read_data(name);
 			//	cout << m.GetCount() <<endl;
+			}
+			void ReadUser(){
+				member.loadData();
+				admin.loadDataAdmin();				
 			}
 			movie GetMovie(){
 				return m;
@@ -591,6 +689,21 @@ class Controler{
 			bool CheckSeat(int seatID){
 				th.CheckSeat(seatID);
 			}
+			Member GetMember(){
+				return member;
+			}
+			Admin GetAdmin(){
+				return admin;
+			}
+			void RegisMember(string name,string pass,string email,string tel){
+				member.addMember(name,pass,email,tel);
+				member.save_member();
+			}
+			void RegisAdmin(string name,string pass,string email,string tel){
+				admin.addAdmin(name,pass,email,tel);
+				admin.save_Admin();
+			}
+			
 
 };
 
@@ -666,16 +779,46 @@ class UI{
 				cout << Con.GetPro().GetPro(i) << endl;
 			}
 		}
+		int login(string name,string pass){
+			if(Con.GetMember().CheckMember(name,pass) ){
+				return 1;
+			}else if(Con.GetAdmin().CheckAdmin(name,pass)){
+				return 2;
+			}else{
+				return 3;
+			}
+		}
+		void RegisMember(string name,string pass,string email,string tel){
+			//Con.GetMember().loadData();
+			if(Con.GetMember().CheckMember(name,pass ) != true ){
+				Con.RegisMember(name,pass,email,tel);	
+				
+			}
+		}
+		void RegisAdmin(string name,string pass,string email,string tel){
+			//Con.GetAdmin().loadDataAdmin();
+			if(Con.GetAdmin().CheckAdmin(name,pass)){
+				//Con.GetAdmin().addAdmin(name,pass,email,tel);
+				Con.RegisMember(name,pass,email,tel);	
+			}
+			
+		}
+		void ReadUser(){
+		//	Con.GetMember().loadData();
+		//	Con.GetAdmin().loadDataAdmin();
+			Con.ReadUser();
+		}
 };
 int main(){
 	UI BUU;
 	Calendar c;
-	int menu,menu2,id;
+	BUU.ReadUser();
+	int menu,menu2,id,mode;
 	string d,name,round,ID;
 	string user,pass,cfpass,email,tel;
 	//BUU.read_data();
-	cout << "hello2" <<endl;
-	BUU.showPromotion();
+	//cout << "hello2" <<endl;
+	//BUU.showPromotion();
 	do{
 			cout << "================== Cinema ========================="<<endl;
 			cout <<"1.Login"<<endl;
@@ -694,8 +837,14 @@ int main(){
 					cout <<"Password :";
 					cin >> pass;
 					cout <<"========================="<<endl;
-				
-				    goto member;
+					mode = BUU.login(user,pass);
+					//cout << mode << endl;
+					if(mode == 1){
+						
+						goto member;	
+					}else if(mode == 2){
+						//goto admin;
+					}
 				    break;
 				    
 				    
@@ -715,6 +864,7 @@ int main(){
 	    		
 					cout <<"Tel";
 	    			cin >> tel;
+	    			BUU.RegisMember(user,pass,email,tel);
 	    			break;
 	    			
 	    			
@@ -807,5 +957,9 @@ member:
 		} */
 	}
 	}while(menu !=4);
+	
+
 }
+
+
 
