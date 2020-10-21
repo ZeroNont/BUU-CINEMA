@@ -1,44 +1,222 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@sutatta163 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-ZeroNont
-/
-BUU-CINEMA
-2
-10
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-BUU-CINEMA/source_code/movie.cpp
-
-Jirayut Saifah Upload to folder
-Latest commit cf8ea99 21 minutes ago
- History
- 0 contributors
-555 lines (506 sloc)  9.73 KB
-  
 #include<iostream>
 #include<fstream>
 #include<iomanip>
 #include<string>
 #include<cstdlib>
 #include<sstream>
+#include<ctime>
 using namespace std;
+class Member{
+	private:
+	class node{
+		public:
+			string UserName;
+			string Password;
+			string Email;
+			string Tel;
+			node *link;
+			node(string UserName,string Password,string Email,string Tel){
+				this->UserName=UserName;
+				this->Password=Password;
+				this->Email=Email;
+				this->Tel=Tel;
+				link=NULL;
+			}//funtion - node
+	};//class - node
+		node *head;
+		node *tail;
+		int count;
+	public:
+		Member(){
+			this->head = NULL;
+			this->tail = NULL;
+			this->count = 0;
+		}//funtion - Member
+		void addMember(string UserName,string Password,string Email,string Tel){
+			node *Newnode = new node(UserName,Password,Email,Tel);
+		 	if(head == NULL){
+				head = 	Newnode;
+				tail = Newnode;
+
+			}else{
+				tail->link = Newnode;
+				tail = Newnode;
+			} //if-else
+			count++;
+		}//funtion - addMember
+		void loadData(){
+			string UserName,Password,Email,Tel,filein;
+			ifstream infile;
+			infile.open("member.txt");
+				while(getline(infile,filein)){
+					//cout << filein <<endl;
+					UserName=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Password=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Email=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Tel=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+				 	 	addMember(UserName,Password,Email,Tel);
+						//addData		 	 	
+				}//while
+		}//funtion - LoadData	
+		void save_member(){
+			fstream infile;
+			infile.open("member.txt",ios::trunc|ios::out);
+			node *temp = head;
+      		while(temp != NULL ){
+				infile << temp->UserName << "," << temp->Password <<"," <<temp->Email <<"," <<temp-> Tel<<endl;
+				temp = temp->link;
+			}//loop - while
+			infile.close();
+		}//funtion - save_member
+		bool CheckMember(string user,string pass){
+			node *temp;
+			temp = head;
+			for(int i=0;i<count;i++){
+
+				if(user == temp->UserName && pass == temp->Password){
+				   return true;
+				}//if
+			    temp = temp->link;
+			}//for
+		 	return false;
+		}//function - login_Member
+};
+class Admin{
+	private:
+	class node{
+		public:
+			string UserName;
+			string Password;
+			string Email;
+			string Tel;
+			node *link;
+			node(string UserName,string Password,string Email,string Tel){
+				this->UserName=UserName;
+				this->Password=Password;
+				this->Email=Email;
+				this->Tel=Tel;
+				link=NULL;
+			}//funtion - node
+	};//class - node
+		node *head;
+		node *tail;
+		int count;
+	public:
+		Admin(){
+			this->head = NULL;
+			this->tail = NULL;
+			this->count = 0;
+		}//funtion - Admin
+		void addAdmin(string UserName,string Password,string Email,string Tel){
+			node *Newnode = new node(UserName,Password,Email,Tel);
+		 	if(head == NULL){
+				head = 	Newnode;
+				tail = Newnode;
+
+			}else{
+				tail->link = Newnode;
+				tail = Newnode;
+			} //if-else
+			count++;
+		}//funtion - addAdmin
+		void loadDataAdmin(){
+			string UserName,Password,Email,Tel,filein;
+			ifstream infile;
+			infile.open("Admin.txt");
+				while(getline(infile,filein)){
+					UserName=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Password=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Email=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+					Tel=filein.substr(0,filein.find(','));
+						filein.erase(0,filein.find(',')+1);	
+				 	 	addAdmin(UserName,Password,Email,Tel);
+						//addData		 	 	
+				}//while
+		}//funtion - LoadDataAdmin	
+		void save_Admin(){
+			fstream infile;
+			infile.open("Admin.txt",ios::trunc|ios::out);
+			node *temp = head;
+      		while(temp != NULL ){
+				infile << temp->UserName << "," << temp->Password <<"," <<temp->Email <<"," <<temp-> Tel<<endl;
+				temp = temp->link;
+			}//loop - while
+			infile.close();
+		}//funtion - save_Admin
+		bool CheckAdmin(string user,string pass){
+			node *temp;
+			temp = head;
+			for(int i=0;i<count;i++){
+				if(user == temp->UserName && pass == temp->Password){
+				   return true;
+				}//if
+			    temp = temp->link;
+			}//for
+		 	return false;
+		}//function - login_Member
+};//class - Admin
+
+class Promotion{
+	private :
+		string MoviePro[5];
+		string UsePro;
+		int count;
+	public :
+		
+		Promotoion(){
+			count = 0;
+			UsePro = " ";
+			/*UsePro="No Promotion";
+			MoviePro[0] = "Buy 3 Get 4";
+			MoviePro[1] = "Discount 10%";
+			MoviePro[2] = "Discount 20%";
+			MoviePro[3] = "Discount 50%";
+			MoviePro[4] = "No Promotion";*/
+		}
+		string GetUsePro(){
+			return UsePro;
+		}	
+		string GetPro(int i){
+			return MoviePro[i];	
+		}
+		void setPro(string Pro,int i){
+			MoviePro[i]= Pro;
+		}
+		void ReadfilePromotion(){
+			string data;
+			count = 0;
+			ifstream mypro;
+			mypro.open("Promotion.txt");
+			getline(mypro,data);
+			UsePro = data;
+			while(getline(mypro,data)){
+				setPro(data,count);
+				//MoviePro[count] = data;
+						
+				//cout << count <<" "<< GetPro(count) <<endl;
+				count++;	
+			}	
+			
+		}
+		
+		int Getsize(){
+			return 5;
+		}
+		/*Promotion SearchPromotion(){
+			return Promotion;
+		}*/
+};
+class Payment{
+	private:
+		
+};
 class Chair{
 	public:
 		string status;
@@ -50,8 +228,14 @@ class Chair{
 		void add(string status,string name){
 			this->status=status;
 			this->name=name;
-			
 		}	
+		bool CheckStatus(){
+			if(status == "0"){
+				return true;
+			}else{
+				return false;
+			}
+		}
 };
 class Theater{
 	public:
@@ -77,19 +261,16 @@ class Theater{
 		void show_chair(){
 			cout << "TheaterID: " << TheaterID <<endl;
 			for(int i=0;i<3;i++){
-		//		cout << chair[i].status << " ";
-		
 				if(chair[i].status == "0"){
 					cout << "X " ;
 				}else{
 					cout << i+1 <<" ";
 				}
-		
-		//		if(i==4){
-		///			cout << endl;
-		//		}
 			}
 			cout << endl;
+		}
+		bool CheckSeat(int seatID){
+			return chair[seatID].CheckStatus();
 		}
 	int GetCount(){
 		return 3;
@@ -112,18 +293,22 @@ public:
 		this->date = date;
 		this->time = time;	
 	}
-
+	string GetDate(){
+		return date;
+	}
+	string GetTime(){
+		return time;
+	}
+	string GetID(){
+		return th.TheaterID;
+	}
+	Theater GetTheater(){
+		return th;
+	}
 	void show2(){
 		string str;
 		stringstream ss;
 		cout << date <<" " <<time;
-		
-		/*
-		for(int i=1;i<=count;i++){
-			cout <<"Round: "<< temp->time << endl;
-			temp = temp->link;
-		}			
-		*/
 		cout << endl;
 	}
 
@@ -142,17 +327,6 @@ private:
 			node(string date,string time,Theater th){
 				round.set(date,time,th);
 				link=NULL;
-			}
-			
-			void show(){
-				cout <<"===================" << endl;	
-				round.show2(); 
-				cout <<"===================" << endl;
-			}
-			void show2(){
-				cout <<"===================" << endl;	
-				round.show_chair(); 
-				cout <<"===================" << endl;
 			}
 			
 	};
@@ -185,6 +359,18 @@ public:
 		}
 			count++; 
 	}
+	Theater GetTheter(string date,string time,string id){
+		node *temp = head;		
+
+		for(int i=0;i<count;i++){
+			if( (temp->round.GetDate() == date && temp->round.GetTime() == time) && temp->round.GetID() == id){
+				return temp->round.GetTheater();
+			}else{
+				temp = temp->link;
+			}	
+		}			
+		cout << endl;
+	}
 /*
 	void add2(string day,string time,Theater th){
 		int i;
@@ -202,36 +388,21 @@ public:
 		} 	
 	} 
 */
-
-	void show(){
-		node *temp;
-		temp = head;		
-
-		for(int i=0;i<count;i++){
-			temp->show();
+	Round GetRound(int in){
+		node *temp = head;
+		for(int i=0;i<in;i++){
 			temp = temp->link;
 		}			
-		cout << endl;
+		return temp->round;
 	}
-	
-	void show_chair(int index){
-		node *temp;
-		temp = head;		
-
-		for(int i=0;i<index;i++){
-			//temp->show();
-			//if()
-			temp = temp->link;
-		}			
-		temp->show2();
-		cout << endl;
-	}	
 
 		void read_data(string filename){
+			count = 0;
   			string filein,day,time,status,theaterID;
 			fstream infile;
 			filename = filename+".txt";
 			infile.open(filename.c_str());
+				
   				getline(infile,filein);
   				    name = filein.substr(0,filein.find(','));
   						filein.erase(0,filein.find(',')+1);
@@ -284,7 +455,6 @@ public:
 		this->tail = NULL;
 		this->count = 0;
 	}	
-	
 
 	void add(string name){
 		node *NewNode = new node(name);
@@ -359,6 +529,15 @@ public:
 			count++;
 		
 	}
+	
+	DAY SearchDate(string date){
+		node *temp = head;
+		for(int i=0;i<count;i++){
+			if( temp->date.get_date() == date){
+				return temp->date;
+			}
+		}
+	}
 	void add2(string name){
 		tail->date.add(name);		
 	}
@@ -376,7 +555,7 @@ public:
 			cout << "==========" << endl;
 			temp = temp->link;
 		}			
-		cout << endl;
+		cout << endl; 
 	}
 	void read_date(){
   		string filein,day,time,status,MovieName;
@@ -406,6 +585,7 @@ public:
 	}
 	
 };
+
 class ListMovie{
 	class node{
 		public:
@@ -426,6 +606,7 @@ public:
 		head = NULL;
 		tail = NULL;
 	}
+
 	void add(string MovieName){
 		node *NewNode = new node(MovieName);
 		if(count == 0){
@@ -440,16 +621,9 @@ public:
 	}
 	
 	void show(){
-		node *temp = head;
-		cout << count << endl;
-		for(int i=1;i<=count;i++){
-			cout << "==========" << endl;
-			cout << temp->MovieName << endl;
-			cout << "==========" << endl;
-			temp = temp->link;
-		}			
-		cout << endl;
+
 	}
+
 	void read_ListMovie(){
   		string filein,MovieName;
 		fstream infile;
@@ -464,94 +638,217 @@ public:
 		return count;
 	}
 };
+
 class Controler{
 	private:
+		Admin admin;
+		Member member;
 		movie m;
+		Theater th;
 		Calendar Cal;
 		ListMovie list;
+		Promotion promo;
 	public:
+			void readfile(){
+				//m.read_data();
+				list.read_ListMovie();
+				Cal.read_date();
+			} 
+			void readPro(){
+				promo.ReadfilePromotion();
+			}
+			void ReadMovie(string name){
+				m.read_data(name);
+			//	cout << m.GetCount() <<endl;
+			}
+			void ReadUser(){
+				member.loadData();
+				admin.loadDataAdmin();				
+			}
+			movie GetMovie(){
+				return m;
+			}
 			BuyMovie(){
 				
 			}
-			ShowListMovie(){
-				
+			DAY SearchDate(string date){
+				return Cal.SearchDate(date);
+			}
+			Theater ShowMovieSeat(string date,string time,string name,string id){
+				m.read_data(name);
+				th = m.GetTheter(date,time,id);
+				return th;
+			}
+			Promotion GetPro(){
+				return promo;
+			}
+	
+			Theater GetTh(){
+				return th;
+			}
+			bool CheckSeat(int seatID){
+				th.CheckSeat(seatID);
+			}
+			Member GetMember(){
+				return member;
+			}
+			Admin GetAdmin(){
+				return admin;
+			}
+			void RegisMember(string name,string pass,string email,string tel){
+				member.addMember(name,pass,email,tel);
+				member.save_member();
+			}
+			void RegisAdmin(string name,string pass,string email,string tel){
+				admin.addAdmin(name,pass,email,tel);
+				admin.save_Admin();
 			}
 			
+
 };
 
-class buuchana{
+class UI{
 	private:
-		movie frame;
-		DAY day[30];
+//		movie Movie;
+//		DAY day[30];
 		Controler Con;
+		int count;
 //		list_staff staff;
 	public:
-		void read_data(){
-			
-			string filein,name,id,tel,study;
-			fstream infile;
-			infile.open("day.txt");
-			int i=0;
-      		while(getline(infile,filein)){
-      			
-      			do{
-      				filein.erase(0,filein.find(',')+1);
-					name = filein.substr(0,filein.find(','));			
-					day[i].add(name);
-				}while( filein.find(',')  != -1);
-				i++;
+		UI(){
+			Con.readfile();
+		}
+		void ShowListMovie(string date){
+			string name;
+			cout << "\n\t=================\n" <<endl;
+			for(int i=0;i<Con.SearchDate(date).GetCount();i++){
+				name = Con.SearchDate(date).get_name(i);
+				cout <<"\tMovieName: "<< name <<endl;
+								
+					Con.ReadMovie(name);
+					for(int i=0;i<Con.GetMovie().GetCount();i++){
+						if(Con.GetMovie().GetRound(i).GetDate() == date){
+							cout <<"\tRound: "<< Con.GetMovie().GetRound(i).GetTime() <<"  CINEMA:" << Con.GetMovie().GetRound(i).GetID() << endl;
+						}
+					}
+					cout << "\n\t=================\n" <<endl;
 			}
 		}
-		ShowListMovie(){
-			
+		void ShowMovieSeat(string date,string time,string name,string id){
+			//Con.GetMovie().read_data(name);
+			for (int i=0 ;i<Con.ShowMovieSeat(date,time,name,id).GetCount();i++){
+					if(Con.GetTh().chair[i].status == "1"){
+						cout << "\tX " ;
+					}else{
+						cout << "\t"<< i+1 <<" ";
+					}
+			}
+			cout << endl;
 		}
+		void BuyMovieSeat(int seatID){
+			if(Con.CheckSeat(seatID)){
+				//Con.SetPayMent();
+				cout << "\tFinish Pls Payment" <<endl;
+			}else{
+				cout << "\t!!! Pls Try Again !!!" <<endl;
+			}
+		}
+		/*
 		void show_round(int Day,int index){
 			string name;
 			name = day[Day-1].get_name(index-1);
 			cout << name << endl;
 			frame.read_data(name);
 			frame.show();
-			//frame.show_chair(index);
 		}
+		*/
 		void show_student(){
-			//frame.show();
 		}
+		/*
 		void showday(int time){
 			day[time-1].show();
-		}
-		void show_chair(int index){
-			frame.show_chair(index);
-		}
+		}*/
 		
+		void show_chair(int index){
+		//	frame.show_chair(index);
+		}
+		void showPromotion(){
+			string id;
+			Con.readPro();
+			for(int i=0;i<5;i++){
+				cout << Con.GetPro().GetPro(i) << endl;
+			}
+		}
+		int login(string name,string pass){
+			if(Con.GetMember().CheckMember(name,pass) ){
+				return 1;
+			}else if(Con.GetAdmin().CheckAdmin(name,pass)){
+				return 2;
+			}else{
+				return 3;
+			}
+		}
+		void RegisMember(string name,string pass,string email,string tel){
+			//Con.GetMember().loadData();
+			if(Con.GetMember().CheckMember(name,pass ) != true ){
+				Con.RegisMember(name,pass,email,tel);	
+				
+			}
+		}
+		void RegisAdmin(string name,string pass,string email,string tel){
+			//Con.GetAdmin().loadDataAdmin();
+			if(Con.GetAdmin().CheckAdmin(name,pass)){
+				//Con.GetAdmin().addAdmin(name,pass,email,tel);
+				Con.RegisMember(name,pass,email,tel);	
+			}
+			
+		}
+		void ReadUser(){
+		//	Con.GetMember().loadData();
+		//	Con.GetAdmin().loadDataAdmin();
+			Con.ReadUser();
+		}
 };
 int main(){
-#include<iostream>
-#include<iomanip>
-using namespace std;
-
-
-
-
-
-int main(){
-	
-	
+	UI BUU;
+	Calendar c;
+	BUU.ReadUser();
+	int menu,menu2,id,mode;
+	string d,name,round,ID;
 	string user,pass,cfpass,email,tel;
-	int menu;
-
-
-do{
-				cout << "================== Cinema ========================="<<endl;
-				  	cout <<"1.Registration"<<endl;
-	    			cout <<"2.Login"<<endl;
-	    			cout <<"3.Exit"<<endl;
-	    		cout << "==================================================="<<endl;
-	    			cout <<"Enter :" ;
-					cin >> menu;
-	    
+	//BUU.read_data();
+	//cout << "hello2" <<endl;
+	//BUU.showPromotion();
+	do{
+			cout << "================== Cinema ========================="<<endl;
+			cout <<"1.Login"<<endl;
+			cout <<"2.Register"<<endl;
+			cout <<"3.Exit"<<endl;
+			cout << "==================================================="<<endl;
+			cout <<"Enter :" ;
+			cin >> menu;
+			switch(menu){
+					case 1:
 	    			
-	    		switch(menu) {
-	    			case 1:
+					cout<<"===========Login=========="<<endl;
+					cout <<"Username :";
+					cin >> user;
+					
+					cout <<"Password :";
+					cin >> pass;
+					cout <<"========================="<<endl;
+					mode = BUU.login(user,pass);
+					//cout << mode << endl;
+					if(mode == 1){
+						
+						goto member;	
+					}else if(mode == 2){
+						//goto admin;
+					}
+				    break;
+				    
+				    
+					case 2:
 	    				
 	    			cout <<"Username :";
 	    			cin >> user;
@@ -567,26 +864,102 @@ do{
 	    		
 					cout <<"Tel";
 	    			cin >> tel;
-	    		
-	    		case 2:
+	    			BUU.RegisMember(user,pass,email,tel);
+	    			break;
 	    			
-					cout<<"===========Login=========="<<endl;
-					cout <<"Username :";
-					cin >> user;
-					
-					cout <<"Password :";
-					cin >> pass;
-					cout <<"========================="<<endl;
-					  
-					  
-				}
-				  
+	    			
+
+			}
+	}while(menu != 3);
+
+member:
+	do{
+		cout<<"\n\n\n";
+		cout<<"\t=============================================================================================="<<endl;
+		cout<<"\t  ######   ##   ##  ##   ##        ####    ######  ##   ##  #######  ##   ##    ###      "<<endl;
+		cout<<"\t   ##  ##  ##   ##  ##   ##       ##  ##     ##    ###  ##   ##   #  ### ###   ## ##    "<<endl;
+		cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    #### ##   ##      #######  ##   ##  "<<endl;
+		cout<<"\t   #####   ##   ##  ##   ##      ##          ##    #######   ####    ## # ##  ##   ##  "<<endl;
+		cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    ## ####   ##      ##   ##  #######  "<<endl;
+		cout<<"\t  ######    #####    #####         ####    ######  ##   ##  #######  ### ###  ##   ##  "<<endl;
+		cout<<"\t==============================================================================================="<<endl;
+		cout <<"\t-Member Menu-" << endl;
+		cout <<"\t1.Buy ticket" << endl;
+		cout <<"\t2.Check promotion//Comming Soon" << endl;
+		cout <<"\t3.Transaction History//Comming Soon" <<endl;
+		cout <<"\t4.Exit" << endl;
+		cout <<"\t==============================================================\n" << endl;
+		cout << "\tEnter: ";
+		cin >> menu;
+		if(menu==1){
+			cout<<"\n\n\n";
+			cout<<"\t=============================================================================================="<<endl;
+			cout<<"\t  ######   ##   ##  ##   ##        ####    ######  ##   ##  #######  ##   ##    ###      "<<endl;
+			cout<<"\t   ##  ##  ##   ##  ##   ##       ##  ##     ##    ###  ##   ##   #  ### ###   ## ##    "<<endl;
+			cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    #### ##   ##      #######  ##   ##  "<<endl;
+			cout<<"\t   #####   ##   ##  ##   ##      ##          ##    #######   ####    ## # ##  ##   ##  "<<endl;
+			cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    ## ####   ##      ##   ##  #######  "<<endl;
+			cout<<"\t  ######    #####    #####         ####    ######  ##   ##  #######  ### ###  ##   ##  "<<endl;
+			cout<<"\t==============================================================================================="<<endl;
+			//showlist
+			cout << "\tDate: ";
+			cin >> d;
+			BUU.ShowListMovie(d);
+			cout << "\tName: ";
+			cin >>name;
+			cout <<"\tRound: ";
+			cin >> round;
+			cout <<"\tCinema: ";
+			cin >> ID;
+			cout <<"\t===========" <<endl;
+			BUU.ShowMovieSeat(d,round,name,ID);			
+			cout <<"\t===========" <<endl;
+			cout << "\tSeatID: ";
+			cin >> id;
+			BUU.BuyMovieSeat(id-1);
+			cout << "\t1.Confirm PayMent / 2.Cancel : ";
+			cin >> menu2;
+			if(menu2 == 1){
 				
+			}else if(menu == 2){
+				cout << "Cancel Finish" <<endl;
+			}
+			cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
+		}else if(menu==2){
+		/*
+	cout<<"\n\n\n";
+	cout<<"\t=============================================================================================="<<endl;
+	cout<<"\t      ######   ######    #####   ##   ##   #####   ######    ####     #####   ##   ##    "<<endl;
+	cout<<"\t       ##  ##   ##  ##  ##   ##  ### ###  ##   ##  # ## #     ##     ##   ##  ###  ## "<<endl;
+	cout<<"\t       ##  ##   ##  ##  ##   ##  #######  ##   ##    ##       ##     ##   ##  #### ##  "<<endl;
+	cout<<"\t       #####    #####   ##   ##  #######  ##   ##    ##       ##     ##   ##  ## ####"<<endl;
+	cout<<"\t       ##       ## ##   ##   ##  ## # ##  ##   ##    ##       ##     ##   ##  ##  ###"<<endl;
+	cout<<"\t       ##       ##  ##  ##   ##  ##   ##  ##   ##    ##       ##     ##   ##  ##   ##"<<endl;
+	cout<<"\t      ####     #### ##   #####   ##   ##   #####    ####     ####     #####   ##   ##"<<endl;
+	cout<<"\t==============================================================================================="<<endl;
+	cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
+	cout<<"\t|  Promotion list \t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
+	cout<<"\t|"<<"  1.Buy 3 Get 4 "<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t|"<<"  2.Discount 20% "<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t|"<<"  3.Discount 10% "<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t|"<<"  4.Discount 50% "<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t|"<<"  5.No Promotion "<<"\t\t\t\t\t\t\t\t\t       |"<<endl;
+	cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
+	cout<<"\t   Now Promotion : Discount 20%"<<endl;
+	cout<<"\t   Enter choich  :"<<endl;
+		}else if(menu == 3){
+			cout <<"\tTransaction History" << endl;	
+		} 
 		
-}while(menu!=3);
+		else if(menu == 4){
+			cout <<"\tExit Programe" << endl;	
+		} */
+	}
+	}while(menu !=4);
+	
 
-
-
-	    
 }
+
+
 
