@@ -73,26 +73,49 @@ class Member{
 };
 class Promotion{
 	private :
+		string MoviePro[5];
 		string UsePro;
 		int count;
 	public :
-		string MoviePro[5];
+		
 		Promotoion(){
-			UsePro="No Promotion";
+			count = 0;
+			UsePro = " ";
+			/*UsePro="No Promotion";
 			MoviePro[0] = "Buy 3 Get 4";
 			MoviePro[1] = "Discount 10%";
 			MoviePro[2] = "Discount 20%";
 			MoviePro[3] = "Discount 50%";
-			MoviePro[4] = "No Promotion";
+			MoviePro[4] = "No Promotion";*/
 		}
 		string GetUsePro(){
 			return UsePro;
 		}	
-		void SetUsePro(int index){
-			UsePro = MoviePro[index];			
+		string GetPro(int i){
+			return MoviePro[i];	
 		}
-		int size(){
-			return count;
+		void setPro(string Pro,int i){
+			MoviePro[i]= Pro;
+		}
+		void ReadfilePromotion(){
+			string data;
+			count = 0;
+			ifstream mypro;
+			mypro.open("Promotion.txt");
+			getline(mypro,data);
+			UsePro = data;
+			while(getline(mypro,data)){
+				setPro(data,count);
+				//MoviePro[count] = data;
+						
+				//cout << count <<" "<< GetPro(count) <<endl;
+				count++;	
+			}	
+			
+		}
+		
+		int Getsize(){
+			return 5;
 		}
 		/*Promotion SearchPromotion(){
 			return Promotion;
@@ -537,6 +560,9 @@ class Controler{
 				list.read_ListMovie();
 				Cal.read_date();
 			} 
+			void readPro(){
+				promo.ReadfilePromotion();
+			}
 			void ReadMovie(string name){
 				m.read_data(name);
 			//	cout << m.GetCount() <<endl;
@@ -558,15 +584,14 @@ class Controler{
 			Promotion GetPro(){
 				return promo;
 			}
-			int getsize(){
-				return promo.size();
-			}			
+	
 			Theater GetTh(){
 				return th;
 			}
 			bool CheckSeat(int seatID){
 				th.CheckSeat(seatID);
 			}
+
 };
 
 class UI{
@@ -635,8 +660,10 @@ class UI{
 		//	frame.show_chair(index);
 		}
 		void showPromotion(){
-			for(int i=0;i<Con.getsize();i++){
-			//	cout << Con.GetPro.name[i] << endl;
+			string id;
+			Con.readPro();
+			for(int i=0;i<5;i++){
+				cout << Con.GetPro().GetPro(i) << endl;
 			}
 		}
 };
@@ -647,7 +674,8 @@ int main(){
 	string d,name,round,ID;
 	string user,pass,cfpass,email,tel;
 	//BUU.read_data();
-//	cout << "hello2" <<endl;
+	cout << "hello2" <<endl;
+	BUU.showPromotion();
 	do{
 			cout << "================== Cinema ========================="<<endl;
 			cout <<"1.Login"<<endl;
