@@ -599,7 +599,7 @@ class UI{
 		void ShowMovieSeat(string date,string time,string name,string id){
 			//Con.GetMovie().read_data(name);
 			for (int i=0 ;i<Con.ShowMovieSeat(date,time,name,id).GetCount();i++){
-					if(Con.GetTh().chair[i].status == "0"){
+					if(Con.GetTh().chair[i].status == "1"){
 						cout << "\tX " ;
 					}else{
 						cout << "\t"<< i+1 <<" ";
@@ -647,6 +647,7 @@ int main(){
 	string d,name,round,ID;
 	string user,pass,cfpass,email,tel;
 	//BUU.read_data();
+//	cout << "hello2" <<endl;
 	do{
 			cout << "================== Cinema ========================="<<endl;
 			cout <<"1.Login"<<endl;
@@ -735,9 +736,16 @@ member:
 			cout <<"\t===========" <<endl;
 			BUU.ShowMovieSeat(d,round,name,ID);			
 			cout <<"\t===========" <<endl;
-			cout << "SeatID: ";
+			cout << "\tSeatID: ";
 			cin >> id;
 			BUU.BuyMovieSeat(id-1);
+			cout << "\t1.Confirm PayMent / 2.Cancel : ";
+			cin >> menu2;
+			if(menu2 == 1){
+				
+			}else if(menu == 2){
+				cout << "Cancel Finish" <<endl;
+			}
 			cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
 		}else if(menu==2){
 		/*
