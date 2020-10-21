@@ -549,23 +549,7 @@ class Controler{
 			DAY SearchDate(string date){
 				return Cal.SearchDate(date);
 			}
-			Theater ShowMovieSeat(string date,string time,string name,string id){
-				m.read_data(name);
-				th = m.GetTheter(date,time,id);
-				return th;
-			}
-			Promotion GetPro(){
-				return promo;
-			}
-			int getsize(){
-				return promo.size();
-			}			
-			Theater GetTh(){
-				return th;
-			}
-			bool CheckSeat(int seatID){
-				th.CheckSeat(seatID);
-			}
+			
 };
 
 class UI{
@@ -606,15 +590,6 @@ class UI{
 			}
 			cout << endl;
 		}
-		void BuyMovieSeat(int seatID){
-			if(Con.CheckSeat(seatID)){
-				Con.SetPayMent();
-				cout << "\tFinish Pls Payment" <<endl;
-			}else{
-				cout << "\t!!! Pls Try Again !!!" <<endl;
-			}
-		}
-		/*
 		void show_round(int Day,int index){
 			string name;
 			name = day[Day-1].get_name(index-1);
@@ -642,57 +617,8 @@ class UI{
 int main(){
 	UI BUU;
 	Calendar c;
-	int menu,menu2,id;
-	string d,name,round,ID;
-	string user,pass,cfpass,email,tel;
-	//BUU.read_data();
-	do{
-			cout << "================== Cinema ========================="<<endl;
-			cout <<"1.Login"<<endl;
-			cout <<"2.Register"<<endl;
-			cout <<"3.Exit"<<endl;
-			cout << "==================================================="<<endl;
-			cout <<"Enter :" ;
-			cin >> menu;
-			switch(menu){
-					case 1:
-	    			
-					cout<<"===========Login=========="<<endl;
-					cout <<"Username :";
-					cin >> user;
-					
-					cout <<"Password :";
-					cin >> pass;
-					cout <<"========================="<<endl;
-				
-				    goto member;
-				    break;
-				    
-				    
-					case 2:
-	    				
-	    			cout <<"Username :";
-	    			cin >> user;
-				
-					cout <<"Password :";
-	    			cin >> pass;
-				
-					cout <<"Confirm password :";
-	    			cin >> cfpass;
-				
-					cout <<"E-mail :";
-	    			cin >> email;
-	    		
-					cout <<"Tel";
-	    			cin >> tel;
-	    			break;
-	    			
-	    			
-
-			}
-	}while(menu != 3);
-
-member:
+	int menu,menu2;
+	BUU.read_data();
 	do{
 		cout<<"\n\n\n";
 		cout<<"\t=============================================================================================="<<endl;
@@ -712,32 +638,9 @@ member:
 		cout << "\tEnter: ";
 		cin >> menu;
 		if(menu==1){
-			cout<<"\n\n\n";
-			cout<<"\t=============================================================================================="<<endl;
-			cout<<"\t  ######   ##   ##  ##   ##        ####    ######  ##   ##  #######  ##   ##    ###      "<<endl;
-			cout<<"\t   ##  ##  ##   ##  ##   ##       ##  ##     ##    ###  ##   ##   #  ### ###   ## ##    "<<endl;
-			cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    #### ##   ##      #######  ##   ##  "<<endl;
-			cout<<"\t   #####   ##   ##  ##   ##      ##          ##    #######   ####    ## # ##  ##   ##  "<<endl;
-			cout<<"\t   ##  ##  ##   ##  ##   ##      ##          ##    ## ####   ##      ##   ##  #######  "<<endl;
-			cout<<"\t  ######    #####    #####         ####    ######  ##   ##  #######  ### ###  ##   ##  "<<endl;
-			cout<<"\t==============================================================================================="<<endl;
-			//showlist
-			cout << "\tDate: ";
-			cin >> d;
-			BUU.ShowListMovie(d);
-			cout << "\tName: ";
-			cin >>name;
-			cout <<"\tRound: ";
-			cin >> round;
-			cout <<"\tCinema: ";
-			cin >> ID;
-			cout <<"\t===========" <<endl;
-			BUU.ShowMovieSeat(d,round,name,ID);			
-			cout <<"\t===========" <<endl;
-			cout << "SeatID: ";
-			cin >> id;
-			BUU.BuyMovieSeat(id-1);
-			cout<<"\t+----------------------------------------------------------------------------------------------+"<<endl;
+			ListMovie list;
+			list.read_ListMovie();
+			list.show();
 		}else if(menu==2){
 		/*
 	cout<<"\n\n\n";
